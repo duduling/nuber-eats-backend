@@ -1,6 +1,7 @@
-import { Field, ObjectType } from '@nestjs/graphql'
-@ObjectType()
-export class Restaurant {
+import { ArgsType, Field } from '@nestjs/graphql'
+
+@ArgsType()
+export class CreateRestaurantDto {
 	@Field(() => String)
 	name: string
 
