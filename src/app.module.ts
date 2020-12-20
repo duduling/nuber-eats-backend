@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 
 import * as Joi from 'joi'
 import { join } from 'path'
+import { Restaurant } from './restaurants/entities/restaurant.entity'
 
 import { RestaurantsModule } from './restaurants/restaurants.module'
 
@@ -16,7 +17,7 @@ import { RestaurantsModule } from './restaurants/restaurants.module'
 			validationSchema: Joi.object({
 				NODE_ENV: Joi.string().valid('dev', 'prod').required(),
 				DB_HOST: Joi.string().required(),
-				DB_PORT: Joi.number().required(),
+				DB_PORT: Joi.string().required(),
 				DB_USERNAME: Joi.string().required(),
 				DB_PASSWORD: Joi.string().required(),
 				DB_DATABASE: Joi.string().required(),
@@ -29,8 +30,9 @@ import { RestaurantsModule } from './restaurants/restaurants.module'
 			username: process.env.DB_USERNAME,
 			password: process.env.DB_PASSWORD,
 			database: process.env.DB_DATABASE,
-			synchronize: true,
+			synchronize: process.env.NODE_ENV !== 'prod',
 			logging: true,
+			entities: [Restaurant],
 		}),
 		GraphQLModule.forRoot({
 			// autoSchemaFile: true,
